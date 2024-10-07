@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   # CREATE
   post("/insert_delivery", { :controller => "deliveries", :action => "create" })
           
-  
   get("/deliveries/:path_id", { :controller => "deliveries", :action => "show" })
   
   # UPDATE
