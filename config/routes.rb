@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   # READ
   root "deliveries#index"
 
+  get("/deliveries", { :controller => "deliveries", :action => "deliveries" })
+
   # Routes for the Delivery resource:
 
   # CREATE

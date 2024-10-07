@@ -1,5 +1,12 @@
 class DeliveriesController < ApplicationController
+
   def index
+    matching_deliveries = Delivery.all
+    @list_of_deliveries = matching_deliveries.order({ :created_at => :desc })
+    render({ :template => "deliveries/index" })
+  end
+
+  def deliveries
     matching_deliveries = Delivery.all
     @list_of_deliveries = matching_deliveries.order({ :created_at => :desc })
     render({ :template => "deliveries/index" })
@@ -47,6 +54,6 @@ class DeliveriesController < ApplicationController
 
     the_delivery.destroy
 
-    redirect_to("/", { :notice => "Deleted."} )
+    redirect_to("/deliveries", { :notice => "Deleted."} )
   end
 end
