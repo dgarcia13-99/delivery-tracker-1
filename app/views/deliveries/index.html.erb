@@ -1,3 +1,18 @@
+<head>
+  <style>
+  
+  .waiting_on{
+    background-color:#fafad2;
+  }
+
+  .received{
+    background-color:#90ee8f;
+  }
+  </style>
+</head>
+
+<body>
+
 <div>
   <div>
     <h1>
@@ -50,60 +65,42 @@
 
 <hr>
 
-<h2>Waiting on</h2>
+<div class="waiting_on">
+  <h2>Waiting on</h2>
 
 <ul>
 <% @list_of_deliveries.where(:user_id => current_user.id).where(:arrived => false).each do |a_delivery| %>
-  <li>
-  <div><%=a_delivery.description%><div>
-  <div>Supposed to arrive on <%=a_delivery.supposed_to_arrive_on%><div>
+  <li><%=a_delivery.description%>
+    <%if a_delivery.supposed_to_arrive_on < Time.now%>
+      <div style="color:red;">Supposed to arrive on <%=a_delivery.supposed_to_arrive_on%><div>
+    <%else%>
+      <div>Supposed to arrive on <%=a_delivery.supposed_to_arrive_on%><div>
+    <%end%>
   <div><%=a_delivery.details%><div>
-  </li>
-
-</ul>
-
-      
-      <tr>
-        <td>
-          <%= a_delivery.id %>
-        </td>
-
-        <td>
-          <%= a_delivery.user_id %>
-        </td>
-
-        <td>
-          <%= a_delivery.description %>
-        </td>
-
-        <td>
-          <%= a_delivery.details %>
-        </td>
-
-        <td>
-          <%= a_delivery.supposed_to_arrive_on %>
-        </td>
-
-        <td>
-          <%= a_delivery.arrived %>
-        </td>
-
-        <td>
-          <%= time_ago_in_words(a_delivery.created_at) %> ago
-        </td>
-        <td>
-          <%= time_ago_in_words(a_delivery.updated_at) %> ago
-        </td>
-
-        <td>
-          <a href="/deliveries/<%= a_delivery.id %>">
-            Show details
-          </a>
-        </td>
-      </tr>
-      <% end %>
-    </table>
+  <div>
+    <form action="modify_delivery/<%=a_delivery.id%>" method="post">
+    <input type="hidden" name="received" value="true">
+      <button>Mark as received</button>
+    </form>
   </div>
+  <br>
+  </li>
+<%end%>
+</ul>
 </div>
 
 <hr>
+
+<div class="received">
+  <h2>Received</h2>
+
+<ul>
+<% @list_of_deliveries.where(:user_id => current_user.id).where(:arrived => true).each do |a_delivery| %>
+  <li><%=a_delivery.description%>
+    <div><small><%=a_delivery.updated_at%> <a href="/delete_delivery/<%=a_delivery.id%>"><small>Delete</a><div>
+  </li>
+<%end%>
+</ul>
+</div>
+
+</body>     
