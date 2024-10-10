@@ -41,7 +41,7 @@ jobs:
         run: bin/rake
 
 
-  - name: First interaction
+- name: First interaction
   uses: actions/first-interaction@v1.3.0
   with:
     repo-token: ${{ secrets.GITHUB_TOKEN }}
